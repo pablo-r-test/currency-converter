@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="${title}">Title</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+	href="../../css/bootstrap.min.css" />
+</head>
+<body>
+
+	<div th:replace="header :: header">&nbsp;</div>
+	<div class="container">
+
+		<form th:action="@{/exchangerate}" method="post" th:object="${exchangerate}" role="form">
+			<select class="form-control" th:field="*{source}"  id="sourceCurrencyDropdown" required="true">
+				<option value="">Select source currency</option>
+				<option th:each="currency : ${availableCurrencies}" th:value="${currency}" th:text="${currency}"></option>
+			</select>
+			<select class="form-control" th:field="*{destination}"  id="destinationCurrencyDropdown" required="true">
+				<option value="">Select destination currency</option>
+				<option th:each="currency : ${availableCurrencies}" th:value="${currency}" th:text="${currency}"></option>
+			</select>
+			<input type="date" th:field="*{date}" id="exchangeRateDate" min="2010-12-14" defaultValue="2017-04-30" />
+			<input type="submit" value="Get exchange rate"/>
+		</form>
+
+		<div th:if="${not #lists.isEmpty(exchangeRateRequests)}" class="table-responsive">
+			<table class="table">
+				<tr>
+					<th>Source currency</th>
+					<th>Destination currency</th>
+					<th>Date</th>
+					<th>Exchange rate</th>
+				</tr>
+				<tr th:each="exchangeRateRequest : ${exchangeRateRequests}">
+					<td th:text="${exchangeRateRequest.source}"></td>
+					<td th:text="${exchangeRateRequest.destination}"></td>
+					<td th:text="${exchangeRateRequest.date}"></td>
+					<td th:text="${exchangeRateRequest.quote}"></td>
+				</tr>
+			</table>
+		</div>
+
+		<form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+	</div>
+	<!-- jQuery-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Bootstrap -->
+	<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+			integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+			crossorigin="anonymous"></script>
+	<!-- Bootstrap Validator plugin -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+</body>
+</html>
