@@ -1,3 +1,10 @@
 language: java
 jdk:
   - oraclejdk8
+deploy:
+  provider: heroku
+  api_key:
+    secure: ae1e461d-f5fa-47f1-bfa0-c51e9be9c892
+  app: currency-converter-zooplus
+  on:
+    repo: pablo-r-test/currency-converter
